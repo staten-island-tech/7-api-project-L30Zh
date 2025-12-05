@@ -8,6 +8,7 @@ print()
 window = Tk()
 window.geometry("720x960")
 def getQuiz():
+    global a, b, c, d, e, f
     response = requests.get(f"https://opentdb.com/api.php?amount=1&type=multiple")
     if response.status_code != 200:
         return None
@@ -18,7 +19,19 @@ def getQuiz():
     question = result["question"]
     correct = result["correct_answer"]
     incorrect = result["incorrect_answers"]
-    
+
+    choices = [correct, incorrect[0], incorrect[1], incorrect[2]]
+    a = random.choice(choices)
+    choices.remove(a)
+    b = random.choice(choices)
+    choices.remove(b)
+    c = random.choice(choices)
+    choices.remove(c)
+    d = random.choice(choices)
+    choices.remove(d)
+    choices = [correct, incorrect[0], incorrect[1], incorrect[2]]
+    e = question
+    f = correct
 
     return question, correct, incorrect
 
@@ -38,21 +51,24 @@ print("Incorrect Answers →", incorrect)
 def check(choice):
     if choice == correct:
         Check.config(text="Correct!")
+        getQuiz()
+        question_label.config(text=e)
+        answer_button1.config(text=a)
+        answer_button2.config(text=b)
+        answer_button3.config(text=c)
+        answer_button4.config(text=d)
     else:
-        Check.config(text=f"Incorrect! The answer was {correct}")
+        Check.config(text=f"Incorrect! The answer was {f}")
+        getQuiz()
+        question_label.config(text=e)
+        answer_button1.config(text=a)
+        answer_button2.config(text=b)
+        answer_button3.config(text=c)
+        answer_button4.config(text=d)
         
 
 
-choices = [correct, incorrect[0], incorrect[1], incorrect[2]]
-a = random.choice(choices)
-choices.remove(a)
-b = random.choice(choices)
-choices.remove(b)
-c = random.choice(choices)
-choices.remove(c)
-d = random.choice(choices)
-choices.remove(d)
-choices = [correct, incorrect[0], incorrect[1], incorrect[2]]
+
 
 
 question_label = Label(window, text=question, wraplength=350, font=("Arial", 16))
@@ -106,10 +122,6 @@ answer_button4.pack(pady=20)
 
 
 
-answer_button1.config(text=a)
-answer_button2.config(text=b)
-answer_button3.config(text=c)
-answer_button4.config(text=c)
 
 
 
