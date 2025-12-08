@@ -2,6 +2,8 @@
 from tkinter import*
 import requests
 import random
+Cor = 0
+Incor = 0
 
 print()
 
@@ -43,28 +45,28 @@ print("Correct Answer →", correct)
 print("Incorrect Answers →", incorrect)
 
 
-
-
-
+def load():
+    question_label.config(text=e)
+    answer_button1.config(text=a)
+    answer_button2.config(text=b)
+    answer_button3.config(text=c)
+    answer_button4.config(text=d)
 
 
 def check(choice):
-    if choice == correct:
+    global Cor, Incor
+    if choice == f:
         Check.config(text="Correct!")
-        getQuiz()
-        question_label.config(text=e)
-        answer_button1.config(text=a)
-        answer_button2.config(text=b)
-        answer_button3.config(text=c)
-        answer_button4.config(text=d)
-    else:
+        Cor += 1
+
+    elif choice != f:
         Check.config(text=f"Incorrect! The answer was {f}")
-        getQuiz()
-        question_label.config(text=e)
-        answer_button1.config(text=a)
-        answer_button2.config(text=b)
-        answer_button3.config(text=c)
-        answer_button4.config(text=d)
+        Incor += 1
+        
+    Record.config(text=f"Correct: {Cor}   Incorrect: {Incor}")
+    getQuiz()
+    load()
+    
         
 
 
@@ -122,12 +124,11 @@ answer_button4.pack(pady=20)
 
 
 
-
-
-
-
 Check = Label(window, text="", wraplength=350, font=("Arial", 16))
 Check.pack(pady=20)
+
+Record = Label(window, text=f"Correct: {Cor}   Incorrect: {Incor}", wraplength=350, font=("Arial", 16))
+Record.pack(pady=20)
 
 
 window.resizable(False, False)
