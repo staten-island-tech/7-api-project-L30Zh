@@ -1,7 +1,8 @@
-
 from tkinter import*
 import requests
 import random
+import html 
+
 Cor = 0
 Incor = 0
 
@@ -18,9 +19,9 @@ def getQuiz():
     data = response.json()
     result = data["results"][0]
 
-    question = result["question"]
-    correct = result["correct_answer"]
-    incorrect = result["incorrect_answers"]
+    question = html.unescape(result["question"])
+    correct = html.unescape(result["correct_answer"])
+    incorrect = [html.unescape(ans) for ans in result["incorrect_answers"]]
 
     choices = [correct, incorrect[0], incorrect[1], incorrect[2]]
     a = random.choice(choices)
@@ -55,17 +56,22 @@ def load():
 
 def check(choice):
     global Cor, Incor
+    
     if choice == f:
         Check.config(text="Correct!")
         Cor += 1
-
+        getQuiz()
+        load()
     elif choice != f:
         Check.config(text=f"Incorrect! The answer was {f}")
         Incor += 1
-        
+
     Record.config(text=f"Correct: {Cor}   Incorrect: {Incor}")
+
+def next():
     getQuiz()
     load()
+        
     
         
 
@@ -81,9 +87,8 @@ answer_button1 = Button(
     text=a,
     font=("Arial", 14),
     width=20,
-    height=2,
-    command= lambda x = a: check(x)
-)
+    height=2)
+answer_button1.config(command= lambda x = answer_button1: check(x["text"]))
 answer_button1.pack(pady=20)
 
 
@@ -93,9 +98,8 @@ answer_button2 = Button(
     text=b,
     font=("Arial", 14),
     width=20,
-    height=2,
-    command= lambda x = b: check(x)
-)
+    height=2)
+answer_button2.config(command= lambda x = answer_button2: check(x["text"]))
 answer_button2.pack(pady=20)
 
 
@@ -105,9 +109,8 @@ answer_button3 = Button(
     text=c,
     font=("Arial", 14),
     width=20,
-    height=2,
-    command= lambda x = c: check(x)
-)
+    height=2)
+answer_button3.config(command= lambda x = answer_button3: check(x["text"]))
 answer_button3.pack(pady=20)
 
 
@@ -117,9 +120,8 @@ answer_button4 = Button(
     text=d,
     font=("Arial", 14),
     width=20,
-    height=2,
-    command= lambda x = d: check(x)
-)
+    height=2)
+answer_button4.config(command= lambda x = answer_button4: check(x["text"]))
 answer_button4.pack(pady=20)
 
 
