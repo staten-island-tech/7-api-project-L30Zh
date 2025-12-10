@@ -9,12 +9,12 @@ Incor = 0
 print()
 
 window = Tk()
-window.geometry("720x960")
+window.geometry("960x720")
 def getQuiz():
     global a, b, c, d, e, f
     response = requests.get(f"https://opentdb.com/api.php?amount=1&type=multiple")
     if response.status_code != 200:
-        return None
+        return a, b, c, d, e, f
     
     data = response.json()
     result = data["results"][0]
@@ -24,27 +24,15 @@ def getQuiz():
     incorrect = [html.unescape(ans) for ans in result["incorrect_answers"]]
 
     choices = [correct, incorrect[0], incorrect[1], incorrect[2]]
-    a = random.choice(choices)
-    choices.remove(a)
-    b = random.choice(choices)
-    choices.remove(b)
-    c = random.choice(choices)
-    choices.remove(c)
-    d = random.choice(choices)
-    choices.remove(d)
-    choices = [correct, incorrect[0], incorrect[1], incorrect[2]]
+    random.shuffle(choices)
+    a, b, c, d = choices
     e = question
     f = correct
 
-    return question, correct, incorrect
+    return a, b ,c , d, e, f
 
      
-question, correct, incorrect = getQuiz()
-
-print("Question →", question)
-print("Correct Answer →", correct)
-print("Incorrect Answers →", incorrect)
-
+a, b, c, d, e, f = getQuiz()
 
 def load():
     question_label.config(text=e)
@@ -60,35 +48,31 @@ def check(choice):
     if choice == f:
         Check.config(text="Correct!")
         Cor += 1
-        getQuiz()
-        load()
     elif choice != f:
         Check.config(text=f"Incorrect! The answer was {f}")
         Incor += 1
 
     Record.config(text=f"Correct: {Cor}   Incorrect: {Incor}")
+    next()
 
 def next():
-    getQuiz()
+    global a, b, c, d, e, f
+    a, b, c, d, e, f = getQuiz()
     load()
         
     
-        
 
 
-
-
-
-question_label = Label(window, text=question, wraplength=350, font=("Arial", 16))
+question_label = Label(window, text=e, wraplength=350, font=("Arial", 16))
 question_label.pack(pady=20)
 
 answer_button1 = Button(
     window,
     text=a,
     font=("Arial", 14),
-    width=20,
+    width=50,
     height=2)
-answer_button1.config(command= lambda x = answer_button1: check(x["text"]))
+answer_button1.config(command= lambda: check(a))
 answer_button1.pack(pady=20)
 
 
@@ -97,9 +81,9 @@ answer_button2 = Button(
     window,
     text=b,
     font=("Arial", 14),
-    width=20,
+    width=50,
     height=2)
-answer_button2.config(command= lambda x = answer_button2: check(x["text"]))
+answer_button2.config(command= lambda: check(b))
 answer_button2.pack(pady=20)
 
 
@@ -108,9 +92,9 @@ answer_button3 = Button(
     window,
     text=c,
     font=("Arial", 14),
-    width=20,
+    width=50,
     height=2)
-answer_button3.config(command= lambda x = answer_button3: check(x["text"]))
+answer_button3.config (command= lambda: check(c))
 answer_button3.pack(pady=20)
 
 
@@ -119,9 +103,9 @@ answer_button4 = Button(
     window,
     text=d,
     font=("Arial", 14),
-    width=20,
+    width=50,
     height=2)
-answer_button4.config(command= lambda x = answer_button4: check(x["text"]))
+answer_button4.config(command= lambda: check(d))
 answer_button4.pack(pady=20)
 
 
