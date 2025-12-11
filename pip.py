@@ -9,7 +9,7 @@ Incor = 0
 print()
 
 window = Tk()
-window.geometry("960x720")
+window.geometry("960x1440")
 def getQuiz():
     global a, b, c, d, e, f
     response = requests.get(f"https://opentdb.com/api.php?amount=1&type=multiple")
@@ -31,7 +31,7 @@ def getQuiz():
 
     return a, b ,c , d, e, f
 
-     
+
 a, b, c, d, e, f = getQuiz()
 
 def load():
@@ -44,7 +44,7 @@ def load():
 
 def check(choice):
     global Cor, Incor
-    
+    dis()
     if choice == f:
         Check.config(text="Correct!")
         Cor += 1
@@ -53,12 +53,26 @@ def check(choice):
         Incor += 1
 
     Record.config(text=f"Correct: {Cor}   Incorrect: {Incor}")
-    next()
+    nextb.config(state="normal")
 
 def next():
     global a, b, c, d, e, f
     a, b, c, d, e, f = getQuiz()
     load()
+    en()
+    nextb.config(state="disabled")
+
+def dis():
+    answer_button1.config(state="disabled")
+    answer_button2.config(state="disabled")
+    answer_button3.config(state="disabled")
+    answer_button4.config(state="disabled")
+
+def en():
+    answer_button1.config(state="normal")
+    answer_button2.config(state="normal")
+    answer_button3.config(state="normal")
+    answer_button4.config(state="normal")
         
     
 
@@ -105,8 +119,18 @@ answer_button4 = Button(
     font=("Arial", 14),
     width=50,
     height=2)
-answer_button4.config(command= lambda: check(d))
+answer_button4.config(command= lambda: check(d),)
 answer_button4.pack(pady=20)
+
+nextb = Button(
+    window,
+    text="Next Question",
+    font=("Arial", 14),
+    width=50,
+    height=2)
+nextb.config(state="disabled")
+nextb.config(command= lambda: next())
+nextb.pack(pady=20)
 
 
 
