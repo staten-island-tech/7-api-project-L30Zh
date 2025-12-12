@@ -12,7 +12,7 @@ window = Tk()
 window.geometry("960x1440")
 def getQuiz():
     global a, b, c, d, e, f
-    response = requests.get(f"https://opentdb.com/api.php?amount=1&type=multiple")
+    response = requests.get(f"https://opentdb.com/api.php?amount=10&category=19&type=multiple")
     if response.status_code != 200:
         return a, b, c, d, e, f
     
@@ -53,7 +53,8 @@ def check(choice):
         Incor += 1
 
     Record.config(text=f"Correct: {Cor}   Incorrect: {Incor}")
-    nextb.config(state="normal")
+
+    window.after(3500, nextb.config(state="normal"))
 
 def next():
     global a, b, c, d, e, f
