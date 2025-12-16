@@ -35,6 +35,7 @@ def getQuiz():
 a, b, c, d, e, f = getQuiz()
 
 def load():
+    nextb.config(text="Answer Question First")
     question_label.config(text=e)
     answer_button1.config(text=a)
     answer_button2.config(text=b)
@@ -45,6 +46,7 @@ def load():
 def check(choice):
     global Cor, Incor
     dis()
+    nextb.config(text="Next Question")
     if choice == f:
         Check.config(text="Correct!")
         Cor += 1
@@ -125,7 +127,7 @@ answer_button4.pack(pady=20)
 
 nextb = Button(
     window,
-    text="Next Question",
+    text="Answer Question First",
     font=("Arial", 14),
     width=50,
     height=2)
