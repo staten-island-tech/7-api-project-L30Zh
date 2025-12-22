@@ -1,5 +1,7 @@
+import random
+
 class MC():
-    def __init__(self, name, klass, health, defense, strength, mana, speed, money, level, inv):
+    def __init__(self, name, klass, health, defense, strength, mana, speed, money, level, inv, exp):
         self.klass = klass
         self.name = name
         self.health = health
@@ -10,6 +12,7 @@ class MC():
         self.money = money
         self.level = level
         self.inv = inv
+        self.exp = exp
 
     def stats(self):
         print("Your stats:")
@@ -23,24 +26,71 @@ class MC():
         print(f"Level ~ {self.level}")
         print(f"Money ~ {self.money}")
         print(f"Inventory ~ {self.inv}")
+
+    def lvup(self):
+        Lvtime = 0
+        while self.exp >= 100:
+            if self.exp > 100:
+                self.level += 1
+                self.exp -= 100
+                Lvtime += 1
+        if Lvtime >= 1:
+            print(f"You leveled up {Lvtime} times!")
+        
         
 class enemy():
-    def __init__(self, type, health, defense, strength, mana, speed, level):
+    def __init__(self, type, health, defense, strength, speed, level):
         self.type = type
         self.klass = klass
         self.health = health
         self.defense = defense
         self.strength = strength
-        self.mana = mana
         self.speed = speed
         self.level = level
 
-    def fight(self, dead):
+    def fight(self):
         dead = False
-        EnSpd = 0
-        YSpd = 0
-        while dead == False:
-            
+        YSpd = you.speed
+        EnSpd = enemy.speed
+        if you.speed != enemy.speed:
+            while dead == False:
+                if YSpd > EnSpd:
+                    you.atk()
+                    EnSpd += self.speed
+                elif EnSpd > YSpd:
+                    enemy.atk()
+                    YSpd += you.speed
+                elif EnSpd == YSpd:
+                    print(f"Your Speed ~ {YSpd} = Enemy Speed {EnSpd}. Round skip.")
+                if self.health <= 0:
+                    dead == True
+                    print(f"You won! EXP gained: {18 + 2*self.level}")
+                    you.exp += (18 + 2*self.level)
+                    you.lvup()
+        else:
+            rotation = 0
+            while dead == False:
+                rotation += 1
+                if rotation == 1:
+                    you.atk()
+                elif rotation == 2:
+                    enemy.attack()
+                    rotation = 0
+                if self.health <= 0:
+                    dead == True
+                    print(f"You won! EXP gained: {18 + 2*self.level}")
+                    you.exp += (18 + 2*self.level)
+                    you.lvup()
+
+    def dmg(self):
+
+
+
+    def atk(self):
+        random.randint(1,4)
+
+
+
 
 CC = False
 while CC == False:
@@ -86,7 +136,7 @@ print(f"Okay, your class is {klass}")
 Name = input("Choose your name")
 print(f"Okay, your name is {Name}")
 
-you = MC(Name, klass, 100, 10, 10, 10, 10, 0, 1, [])
+you = MC(Name, klass, 100, 10, 10, 10, 10, 0, 1, [], 0)
 you.stats()
 print("You wake up to an empty house, your wife and kids have been stolen by the corrupt government")
 print("Your main mission: Save your wife and kids by adventuring out and confronting Bart, the king")
